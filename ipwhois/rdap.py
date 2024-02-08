@@ -400,18 +400,21 @@ class _RDAPCommon:
         for event in events_json:
 
             event_dict = {
-                'action': event['eventAction'],
-                'timestamp': event['eventDate'],
+                'action': None,
+                'timestamp': None,
                 'actor': None
             }
 
             try:
-
                 event_dict['actor'] = event['eventActor']
-
             except (KeyError, ValueError, TypeError):
-
                 pass
+
+            try:
+                event_dict['action'] = event['eventAction']
+                event_dict['timestamp'] = event['eventDate']
+            except (KeyError, ValueError, TypeError):
+                continue
 
             ret.append(event_dict)
 
